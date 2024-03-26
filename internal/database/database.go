@@ -23,7 +23,7 @@ type DbConnection struct {
 	DB *gorm.DB
 }
 
-func NewDatabaseConnection() DbOperations {
+func NewDatabaseConnection() DbConnection {
 	dsn := fmt.Sprintf("host=%s user=%s password=%s dbname=%s port=%d sslmode=%s",
 		constants.Host,
 		constants.User,
@@ -41,7 +41,7 @@ func NewDatabaseConnection() DbOperations {
 		},
 		QueryFields: true})
 
-	return &DbConnection{DB: db}
+	return DbConnection{DB: db}
 }
 
 func (db *DbConnection) Ready() bool {
