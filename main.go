@@ -1,7 +1,14 @@
 package main
 
-import "go-microservice/internal/database"
+import (
+	"go-microservice/internal/database"
+	"go-microservice/internal/server"
+)
 
 func main() {
-	database.NewDatabaseConnection()
+	db := database.NewDatabaseConnection()
+	pr := database.NewProductRepository(db)
+	sv := server.NewServerConnection(pr)
+	sv.RegisterRoutes()
+	sv.StartServer()
 }

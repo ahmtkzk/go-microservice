@@ -1,4 +1,4 @@
-package models
+package model
 
 type Customer struct {
 	CustomerId string `gorm:"primaryKey" json:"customerId"`

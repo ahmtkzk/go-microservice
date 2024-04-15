@@ -2,19 +2,26 @@ package database
 
 import (
 	"context"
-	"go-microservice/internal/models"
+	"go-microservice/internal/model"
+	"gorm.io/gorm"
 )
 
-type ProductOperations interface {
-	GetAllProducts(ctx context.Context) ([]models.Products, error)
-	GetProductById(ctx context.Context) (models.Products, error)
+type ProductRepository struct {
+	*DatabaseRepository[model.Products]
 }
 
-func (db *DbConnection) GetAllProducts(ctx context.Context) ([]models.Products, error) {
-	return nil, nil
+func NewProductRepository(db *gorm.DB) *ProductRepository {
+	return &ProductRepository{
+		&DatabaseRepository[model.Products]{db: db},
+	}
 }
 
-func (db *DbConnection) GetProductById(ctx context.Context) (models.Products, error) {
-	a, _ := db.GetByParam(ctx, "asd")
-	return a, nil
+func (pr *ProductRepository) GetAllProducts(ctx context.Context) []model.Products {
+	result, _ := pr.GetAll(ctx)
+	return result
+}
+
+func (pr *ProductRepository) GetProductByName(ctx context.Context, name string) model.Products {
+	result, _ := pr.GetByParam(ctx, &model.Products{Name: name})
+	return result
 }
